@@ -121,7 +121,7 @@ public class ResourcesActivity extends BaseActivity {
                 break;
             case R.id.getRequest:
                 get();
-//                String url = "http://wwww.baidu.com";
+//                String url = "http://wwww.baidu.com";测试
 //                OkHttpClient okHttpClient = new OkHttpClient();
 //                final Request request = new Request.Builder()
 //                        .url(url)
