@@ -9,6 +9,8 @@
     <color name="black">#000000</color>
     <color name="gray">#B3B3B3</color>
 
+    <color name="setting_item_bg_s">#22000000</color>
+
     <color name="disAble">#B1D7FE</color>
     <color name="base_color">#63B0FD</color><!-- 主题色 -->
     <color name="button_bg_0">@color/base_color</color><!--按键背景颜色-->

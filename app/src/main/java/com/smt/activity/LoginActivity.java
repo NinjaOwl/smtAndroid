@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.smt.R;
+import com.smt.config.SMTApplication;
+import com.smt.utils.PermisionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +21,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        PermisionUtils.verifyStoragePermissions(this);
         ButterKnife.bind(this);
         login.setOnClickListener(this);
     }

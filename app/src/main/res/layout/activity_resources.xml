@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
+    <include layout="@layout/activity_bar" />
+
     <com.smt.view.MyJzvdStd
         android:id="@+id/jz_video"
         android:layout_width="match_parent"

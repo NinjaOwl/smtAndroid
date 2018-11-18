@@ -74,6 +74,10 @@ public class SMTApplication extends Application {
         rootDir = rootDir + "/smt/";
         cachePic = rootDir + "cachePic/";
         crashLogDir = rootDir + "crashLogDir/";
+        createFileDir();
+    }
+
+    public static void createFileDir(){
         SMTUtil.createFileDir(rootDir);
         SMTUtil.createFileDir(cachePic);
         SMTUtil.createFileDir(crashLogDir);

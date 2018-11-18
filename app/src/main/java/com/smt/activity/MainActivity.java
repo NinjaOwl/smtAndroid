@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        SMTApplication.createFileDir();
 
         jzVideo.setUp("http://gslb.miaopai.com/stream/ed5HCfnhovu3tyIQAiv60Q__.mp4"
                 , "视频", JzvdStd.SCREEN_WINDOW_NORMAL);
