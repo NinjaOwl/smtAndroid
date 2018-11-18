@@ -1,0 +1,12 @@
+<resources>
+    <dimen name="rn_margin">13dp</dimen>
+
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="radiusAngle">25dp</dimen>
+    <!--用户个人中心-->
+    <dimen name="fragment_userinfo_margin">12dp</dimen>
+    <dimen name="fragment_userinfo_text_margin">8dp</dimen>
+    <!-- Welcome的 -->
+    <dimen name="welcome_radius_size">20dp</dimen>
+</resources>
