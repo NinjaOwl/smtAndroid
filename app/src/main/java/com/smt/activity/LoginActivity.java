@@ -1,5 +1,6 @@
 package com.smt.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.smt.R;
 import com.smt.config.Preference;
 import com.smt.config.SMTApplication;
+import com.smt.dialog.WaitDialog;
 import com.smt.domain.BaseResult;
 import com.smt.domain.UserInfo;
 import com.smt.http.NetRequest;
@@ -31,7 +33,6 @@ public class LoginActivity extends BaseActivity {
     EditText editPhone;
     @BindView(R.id.edit_pwd)
     EditText editPwd;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class LoginActivity extends BaseActivity {
                 userName = editPhone.getText().toString();
                 password = editPwd.getText().toString();
                 if(!checkValue(userName,password)){
+                    waitDialog.show();
                     login();
                 }
                 break;
@@ -64,6 +66,7 @@ public class LoginActivity extends BaseActivity {
         NetRequest.postFormRequest(SMTURL.LOGIN, SMTURL.loginParams(userName,password), new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
+                waitDialog.dismiss();
                 UserInfo userInfo = ParseUtils.getUser(result);
                 Preference.setUser(userInfo);
                 Preference.putString(Preference.TOKEN,ParseUtils.getToken(result));
@@ -77,6 +80,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void requestFailure(Request request, IOException e) {
+                waitDialog.dismiss();
                 showToast("登录失败"+e.getMessage());
             }
         });

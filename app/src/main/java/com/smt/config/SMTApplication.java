@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.view.WindowManager;
 
 
 import com.smt.utils.SMTUtils;
@@ -39,6 +40,29 @@ public class SMTApplication extends Application {
      */
     private static String versionName = "";
 
+    /**
+     * 屏幕宽度
+     */
+    private static int screenWidth = 0;
+    /**
+     * 屏幕高度
+     */
+    private static int screenHeight = 0;
+
+    /**
+     * 返回屏幕宽度
+     */
+    public static int getScreenWidth() {
+        return screenWidth;
+    }
+
+    /**
+     * 返回屏幕高度
+     */
+    public static int getScreenHeight() {
+        return screenHeight;
+    }
+
 
     @Override
     public void onCreate() {
@@ -55,6 +79,10 @@ public class SMTApplication extends Application {
                 PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
                 versionCode = packageInfo.versionCode;
                 versionName = packageInfo.versionName;
+
+                WindowManager wm = (WindowManager) mAppContext.getSystemService(Context.WINDOW_SERVICE);
+                screenWidth = wm.getDefaultDisplay().getWidth();// 屏幕宽度
+                screenHeight = wm.getDefaultDisplay().getHeight();// 屏幕高度
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }

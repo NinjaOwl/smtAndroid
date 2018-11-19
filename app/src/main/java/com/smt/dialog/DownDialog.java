@@ -15,6 +15,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.smt.R;
+import com.smt.config.SMTApplication;
 import com.smt.view.RopeProgressBar;
 
 
@@ -54,8 +55,8 @@ public class DownDialog {
             dialog = new Dialog(context, R.style.MyDialog);
         }
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        int width = 800;
-        int height = 1280;
+        int width = SMTApplication.getScreenWidth() - 200;
+        int height = SMTApplication.getScreenHeight();
         LayoutParams params = new RelativeLayout.LayoutParams(width, height);
         View dialog_view = View.inflate(context, R.layout.dialog_down, null);
         dialog.setContentView(dialog_view, params);

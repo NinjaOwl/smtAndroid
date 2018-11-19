@@ -32,4 +32,13 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <!-- 等待圈 -->
+    <style name="myProgressBarStyleLarge">
+        <item name="android:indeterminateDrawable">@drawable/progress_large</item>
+        <item name="android:minWidth">51dip</item>
+        <item name="android:maxWidth">51dip</item>
+        <item name="android:minHeight">51dip</item>
+        <item name="android:maxHeight">51dip</item>
+    </style>
 </resources>

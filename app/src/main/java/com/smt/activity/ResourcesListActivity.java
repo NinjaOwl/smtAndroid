@@ -43,16 +43,15 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resources_list);
         ButterKnife.bind(this);
+        showTop("资源列表",true);
 
         factory = (Factory)getIntent().getParcelableExtra("factory");
-
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.setOnRefreshListener(this);
         listView.setOnItemClickListener(this);
         resourcesAdapter = new ResourcesAdapter(this);
         listView.setAdapter(resourcesAdapter);
-
 
         showToast("正在获取工厂列表");
 
@@ -98,7 +97,6 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
         NetRequest.postFormRequest(SMTURL.RESOURCE_LIST,SMTURL.resourceListParams(factory.id,""), new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
-                showToast("获取成功");
                 handler.obtainMessage(MSG_FACTORY_LIST_SUCCESS,result).sendToTarget();
                 ArrayList<Resources> resources = ParseUtils.getResources(result);
                 for (int i=0;i<resources.size();i++){

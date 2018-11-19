@@ -46,6 +46,8 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_factory);
         ButterKnife.bind(this);
+
+        showTop("工厂列表",false);
         //是否从Welcome界面过来
         boolean fromWelcome = getIntent().getBooleanExtra("fromWelcome",false);
         if(fromWelcome)
@@ -66,7 +68,6 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
 //        arrayList.add(new Factory("3","苏州钢厂","苏州"));
 //        arrayList.add(new Factory("4","中信泰富江都特钢厂","中信"));
 //        factoryAdapter.setData(arrayList);
-        showToast("正在获取工厂列表");
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -95,7 +96,7 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
                 case MSG_LOGIN_SUCCESS:
                     break;
                 case MSG_LOGIN_FAIL:
-                    showToast("登录失败，请重新登录"+msg.obj);
+                    showToast("登录工厂列表失败，请重新登录"+msg.obj);
                     startActivity(new Intent(FactoryActivity.this, LoginActivity.class));
                     FactoryActivity.this.finish();
                     break;
@@ -103,11 +104,11 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
                     arrayList.clear();
                     arrayList = ParseUtils.getFactorys(msg.obj+"");
                     factoryAdapter.setData(arrayList);
-                    showToast("获取成功");
+                    showToast("获取工厂列表成功");
                     listView.onRefreshComplete();
                     break;
                 case MSG_FACTORY_LIST_FAIL:
-                    showToast("获取失败："+msg.obj);
+                    showToast("获取工厂列表失败："+msg.obj);
                     listView.onRefreshComplete();
                     break;
             }
@@ -119,7 +120,6 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
         NetRequest.postFormRequest(SMTURL.FACTORY_LIST,null, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
-                showToast("获取成功");
                 handler.obtainMessage(MSG_FACTORY_LIST_SUCCESS,result).sendToTarget();
                 ArrayList<Factory> factories = ParseUtils.getFactorys(result);
                 for (int i=0;i<factories.size();i++){

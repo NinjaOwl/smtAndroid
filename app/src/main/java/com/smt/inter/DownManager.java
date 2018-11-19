@@ -1,6 +1,8 @@
 package com.smt.inter;
 
 
+import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +13,7 @@ import android.os.Message;
 import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 import com.smt.dialog.DownDialog;
+import com.smt.utils.OpenFiles;
 
 import java.io.File;
 
@@ -32,7 +35,7 @@ public class DownManager implements DownListener, DownDialog.DownDialogListener 
     public static final int DOWN_SUCCESS = DOWN_PROGRESS + 1;
     public static final int DOWN_FAILED = DOWN_SUCCESS + 1;
 
-
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -51,7 +54,7 @@ public class DownManager implements DownListener, DownDialog.DownDialogListener 
                     downDialog.dissmiss();
                     Toast.makeText(context, "下载完成,文件路径"+downPath, Toast.LENGTH_SHORT).show();
 
-                    install(downPath);
+                    openFile(downPath);
 
                     break;
                 case DOWN_FAILED:
@@ -76,12 +79,7 @@ public class DownManager implements DownListener, DownDialog.DownDialogListener 
     }
 
 
-    /**
-
-     * 通过隐式意图调用系统安装程序安装APK
-
-     */
-
+    /** 通过隐式意图调用系统安装程序安装APK */
     public void install(String path) {
 
         File file = new File(path );
@@ -101,7 +99,19 @@ public class DownManager implements DownListener, DownDialog.DownDialogListener 
         context.startActivity(intent);
     }
 
-
+    public void openFile(String path){
+        try {
+            System.out.println("文件名---->"+path);
+            Intent intent = OpenFiles.getFileIntent(context,path);
+            context.startActivity(intent);
+        }catch (ActivityNotFoundException e) {
+            //没有安装第三方的软件会提示
+            System.out.println("---->没有找到打开该文件的应用程序");
+        } catch (Exception e) {
+            //没有安装第三方的软件会提示
+            System.out.println("---->其他问题");
+        }
+    }
 
 
     /***

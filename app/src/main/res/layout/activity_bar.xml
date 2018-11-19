@@ -13,6 +13,7 @@
         android:background="@drawable/title_btn_selector"
         android:clickable="true"
         android:gravity="center"
+        android:visibility="gone"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
 

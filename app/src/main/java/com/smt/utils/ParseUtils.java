@@ -68,7 +68,28 @@ public class ParseUtils implements Serializable {
         return token;
     }
 
-    /** 获取工厂列表 */
+    /**
+     * 获取工厂列表
+     * {
+     * 	"code": 200,
+     * 	"msg": "请求成功",
+     * 	"data": {
+     * 		"list": [{
+     * 			"res_id": "1",
+     * 			"res_name": "机器1操作视频",
+     * 			"res_desc": "机器1操作视频",
+     * 			"res_suffix": "mp4",
+     * 			"res_thumb": null,
+     * 			"res_url": "http:\/\/www.baidu.com\/a.mp4"
+     *                }],
+     * 		"paging": {
+     * 			"count": "1",
+     * 			"page_count": 1,
+     * 			"cur_page": 1,
+     * 			"page_size": 10
+     *        }    * 	}
+     * }
+     * */
     public static ArrayList<Factory> getFactorys(String result) {
         ArrayList<Factory> factories = new ArrayList<Factory>();
         try {
