@@ -31,8 +31,10 @@ import okhttp3.Request;
 
 public class FactoryActivity extends BaseActivity implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView> {
 
-    @BindView(R.id.accout)
-    TextView accout;
+    @BindView(R.id.name)
+    TextView name;
+    @BindView(R.id.username)
+    TextView username;
     @BindView(R.id.pull_to_refresh_listview)
     PullToRefreshListView listView;
     private FactoryAdapter factoryAdapter;
@@ -50,7 +52,8 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
             LogUtils.println("","fromWelcome");
 
         userInfo = Preference.getUser();
-        accout.setText(userInfo.name+"："+userInfo.username);
+        name.setText(userInfo.name);
+        username.setText(userInfo.username);
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.setOnRefreshListener(this);

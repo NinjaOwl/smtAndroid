@@ -37,21 +37,6 @@ public class ResourcesActivity extends BaseActivity {
 
     String URL = "http://gslb.miaopai.com/stream/ed5HCfnhovu3tyIQAiv60Q__.mp4";
 
-    @BindView(R.id.PDF)
-    Button PDF;
-    @BindView(R.id.docx)
-    Button docx;
-    @BindView(R.id.doc)
-    Button doc;
-    @BindView(R.id.xlsx)
-    Button xlsx;
-    @BindView(R.id.apk)
-    Button apk;
-    @BindView(R.id.ppt)
-    Button ppt;
-    @BindView(R.id.text)
-    Button text;
-
     Resources resources;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +44,7 @@ public class ResourcesActivity extends BaseActivity {
         setContentView(R.layout.activity_resources);
         ButterKnife.bind(this);
 
-        resources = (Resources)getIntent().getSerializableExtra("resources");
+        resources = (Resources)getIntent().getParcelableExtra("resources");
 
         resources = new Resources("123","视频Title","","http://gslb.miaopai.com/stream/ed5HCfnhovu3tyIQAiv60Q__.mp4",
                 "http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png",
@@ -76,13 +61,6 @@ public class ResourcesActivity extends BaseActivity {
 
 
 
-        PDF.setOnClickListener(this);
-        docx.setOnClickListener(this);
-        doc.setOnClickListener(this);
-        xlsx.setOnClickListener(this);
-        apk.setOnClickListener(this);
-        ppt.setOnClickListener(this);
-        text.setOnClickListener(this);
     }
 
     public void openFile(String path){

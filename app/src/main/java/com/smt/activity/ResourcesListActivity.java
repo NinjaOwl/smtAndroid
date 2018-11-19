@@ -18,6 +18,7 @@ import com.smt.domain.Factory;
 import com.smt.domain.Resources;
 import com.smt.http.NetRequest;
 import com.smt.http.SMTURL;
+import com.smt.utils.LogUtils;
 import com.smt.utils.ParseUtils;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
         setContentView(R.layout.activity_resources_list);
         ButterKnife.bind(this);
 
-        factory = (Factory)getIntent().getSerializableExtra("factory");
+        factory = (Factory)getIntent().getParcelableExtra("factory");
 
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
