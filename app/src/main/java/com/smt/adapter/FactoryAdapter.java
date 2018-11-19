@@ -8,37 +8,37 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.smt.R;
-import com.smt.domain.Item;
+import com.smt.domain.Factory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemAdapter extends BaseAdapter {
+public class FactoryAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater mInflater;
-    private List<Item> items = new ArrayList<Item>();
+    private List<Factory> factories = new ArrayList<Factory>();
 
-    public ItemAdapter(Context context) {
+    public FactoryAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        if (items != null)
-            return items.size();
+        if (factories != null)
+            return factories.size();
         else
             return 0;
     }
 
-    public void setData(List<Item> records) {
-        this.items = records;
+    public void setData(List<Factory> factories) {
+        this.factories = factories;
         this.notifyDataSetChanged();
     }
 
     @Override
     public Object getItem(int id) {
-        return items.get(id);
+        return factories.get(id);
     }
 
     @Override
@@ -51,16 +51,16 @@ public class ItemAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.list_factory, parent, false);
             holder.name = convertView.findViewById(R.id.name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Item item = items.get(position);
+        Factory factory = factories.get(position);
 
-        holder.name.setText(item.getName());
+        holder.name.setText(factory.name);
 
         return convertView;
     }

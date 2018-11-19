@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.bumptech.glide.Glide;
 import com.smt.R;
 import com.smt.config.SMTApplication;
+import com.smt.domain.Factory;
 import com.smt.domain.Resources;
 import com.smt.http.NetRequest;
 import com.smt.inter.DownManager;
@@ -58,7 +59,9 @@ public class ResourcesActivity extends BaseActivity {
         setContentView(R.layout.activity_resources);
         ButterKnife.bind(this);
 
-        resources = new Resources("123","视频Title","http://gslb.miaopai.com/stream/ed5HCfnhovu3tyIQAiv60Q__.mp4",
+        resources = (Resources)getIntent().getSerializableExtra("resources");
+
+        resources = new Resources("123","视频Title","","http://gslb.miaopai.com/stream/ed5HCfnhovu3tyIQAiv60Q__.mp4",
                 "http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png",
                 "附件标题","http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png","备注说明");
 

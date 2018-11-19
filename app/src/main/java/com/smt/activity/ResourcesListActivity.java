@@ -1,0 +1,133 @@
+package com.smt.activity;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.smt.R;
+import com.smt.adapter.FactoryAdapter;
+import com.smt.adapter.ResourcesAdapter;
+import com.smt.domain.Factory;
+import com.smt.domain.Resources;
+import com.smt.http.NetRequest;
+import com.smt.http.SMTURL;
+import com.smt.utils.ParseUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import okhttp3.Request;
+
+public class ResourcesListActivity extends BaseActivity implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>{
+
+    @BindView(R.id.pull_to_refresh_listview)
+    PullToRefreshListView listView;
+    private ResourcesAdapter resourcesAdapter;
+    private ArrayList<Resources> arrayList = new ArrayList<Resources>();
+    private Resources selectedResources = null;
+
+    Factory factory;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_resources_list);
+        ButterKnife.bind(this);
+
+        factory = (Factory)getIntent().getSerializableExtra("factory");
+
+
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.setOnRefreshListener(this);
+        listView.setOnItemClickListener(this);
+        resourcesAdapter = new ResourcesAdapter(this);
+        listView.setAdapter(resourcesAdapter);
+
+
+        showToast("正在获取工厂列表");
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listView.setRefreshing();
+            }
+        }, 300);
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        selectedResources = arrayList.get(position - 1);
+        startActivity(new Intent(this,ResourcesActivity.class).putExtra("resources", selectedResources));
+    }
+
+    public static final int MSG_FACTORY_LIST_SUCCESS = 1;
+    public static final int MSG_FACTORY_LIST_FAIL = 2;
+    @SuppressLint("HandlerLeak")
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_FACTORY_LIST_SUCCESS:
+                    arrayList.clear();
+                    arrayList = ParseUtils.getResources(msg.obj+"");
+                    resourcesAdapter.setData(arrayList);
+                    showToast("获取成功");
+                    listView.onRefreshComplete();
+                    break;
+                case MSG_FACTORY_LIST_FAIL:
+                    showToast("获取失败："+msg.obj);
+                    listView.onRefreshComplete();
+                    break;
+            }
+        }
+    };
+
+    /** 获取资源列表 */
+    public void factoryList() {
+        NetRequest.postFormRequest(SMTURL.RESOURCE_LIST,SMTURL.resourceListParams(factory.id,""), new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                showToast("获取成功");
+                handler.obtainMessage(MSG_FACTORY_LIST_SUCCESS,result).sendToTarget();
+                ArrayList<Resources> resources = ParseUtils.getResources(result);
+                for (int i=0;i<resources.size();i++){
+                    System.out.println("---->"+resources.get(i).toString());
+                }
+            }
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                handler.obtainMessage(MSG_FACTORY_LIST_SUCCESS,e.getMessage()).sendToTarget();
+            }
+        });
+    }
+
+
+
+
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+        factoryList();
+    }
+
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        factoryList();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                listView.onRefreshComplete();
+//            }
+//        }, 2000);
+    }
+
+}

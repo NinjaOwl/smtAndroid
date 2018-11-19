@@ -4,13 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.view.WindowManager;
 
 
-import com.smt.utils.SMTUtil;
+import com.smt.utils.SMTUtils;
 
 import java.io.File;
 
@@ -78,9 +76,9 @@ public class SMTApplication extends Application {
     }
 
     public static void createFileDir(){
-        SMTUtil.createFileDir(rootDir);
-        SMTUtil.createFileDir(cachePic);
-        SMTUtil.createFileDir(crashLogDir);
+        SMTUtils.createFileDir(rootDir);
+        SMTUtils.createFileDir(cachePic);
+        SMTUtils.createFileDir(crashLogDir);
     }
 
 

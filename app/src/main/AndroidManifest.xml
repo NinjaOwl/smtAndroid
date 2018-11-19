@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.ResourcesListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity

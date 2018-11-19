@@ -91,7 +91,7 @@ public class ParseUtils implements Serializable {
 
 
     /** 资源列表 */
-    public static ArrayList<Resources> getRecordFiles(String result) {
+    public static ArrayList<Resources> getResources(String result) {
         ArrayList<Resources> resources = new ArrayList<Resources>();
         try {
             JSONArray circleList = new JSONArray(new JSONObject(result).getJSONObject("data").optString("list"));

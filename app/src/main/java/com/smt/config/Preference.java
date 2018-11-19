@@ -111,6 +111,8 @@ public class Preference {
     }
 
     public static String TOKEN = "token";
+    public static String USERNAME = "username";
+    public static String PASSWORD = "password";
 
     private static UserInfo staticUserInfo;
 

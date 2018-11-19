@@ -6,7 +6,7 @@ import java.io.File;
 /**
  * 工具类
  */
-public class SMTUtil {
+public class SMTUtils {
     public static void createFileDir(String dir) {
         File file = new File(dir);
         if (!file.exists()) {

@@ -6,6 +6,8 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.smt.R;
+import com.smt.config.Preference;
+import com.smt.utils.ParseUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,6 +45,10 @@ public class WelecomeActivity extends BaseActivity {
                     });
                     if (--time <= 0) {
                         remorveDelayed();
+//                        if(Preference.getString(Preference.TOKEN).equals(""))
+//                            startActivity(new Intent(WelecomeActivity.this, LoginActivity.class));
+//                        else
+//                            startActivity(new Intent(WelecomeActivity.this, FactoryActivity.class).putExtra("fromWelcome",true));
                         startActivity(new Intent(WelecomeActivity.this, LoginActivity.class));
                         WelecomeActivity.this.finish();
                     }

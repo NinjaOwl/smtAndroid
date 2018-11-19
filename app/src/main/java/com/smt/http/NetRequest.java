@@ -7,6 +7,7 @@ import android.os.Looper;
 import com.google.gson.Gson;
 import com.smt.config.Preference;
 import com.smt.config.SMTApplication;
+import com.smt.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -152,12 +153,12 @@ public class NetRequest {
             } else {
                 value = map.getValue();
             }
-            System.out.println("请求参数：---> "+key+"--->"+value);
+            LogUtils.println("请求参数",key+"--->"+value);
             //把key和value添加到formbody中
             builder.add(key, value);
         }
         requestBody = builder.build();
-        System.out.println("请求url：---> "+url);
+        LogUtils.println("请求url",url);
         //结果返回
         final Request request = addHeaders()
                 .url(url)
@@ -173,7 +174,7 @@ public class NetRequest {
                 if (response.isSuccessful()) { // 请求成功
                     //执行请求成功的操作
                     String result = response.body().string();
-                    System.out.println("请求成功：---->"+result);
+                    LogUtils.println("请求成功",result);
                     deliverDataSuccess(result, callBack);
                 } else {
                     throw new IOException(response + "");
@@ -193,7 +194,7 @@ public class NetRequest {
                 .addHeader("app_lang", "zh")
                 .addHeader("app_type", "smt_client")
                 .addHeader("app_version", SMTApplication.getVersionName());
-        System.out.println("请求token： --->"+Preference.getString(Preference.TOKEN));
+        LogUtils.println("请求token",Preference.getString(Preference.TOKEN));
         return builder;
     }
 
