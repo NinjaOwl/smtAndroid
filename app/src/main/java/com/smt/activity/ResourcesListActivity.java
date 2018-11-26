@@ -37,6 +37,8 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
     private Resources selectedResources = null;
 
     Factory factory;
+    /** 当前页数 */
+    int curPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +80,14 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_FACTORY_LIST_SUCCESS:
-                    arrayList.clear();
-                    arrayList = ParseUtils.getResources(msg.obj+"");
+                    arrayList.addAll(ParseUtils.getResources(msg.obj+""));
                     resourcesAdapter.setData(arrayList);
-                    showToast("获取成功");
+                    curPage++;
+                    if(curPage>ParseUtils.getPageCount(msg.obj+"")){
+                        showToast("获取成功，已无数据");
+                    }else{
+                        showToast("获取成功");
+                    }
                     listView.onRefreshComplete();
                     break;
                 case MSG_FACTORY_LIST_FAIL:
@@ -94,7 +100,7 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
 
     /** 获取资源列表 */
     public void factoryList() {
-        NetRequest.postFormRequest(SMTURL.RESOURCE_LIST,SMTURL.resourceListParams(factory.id,""), new NetRequest.DataCallBack() {
+        NetRequest.postFormRequest(SMTURL.RESOURCE_LIST,SMTURL.resourceListParams(factory.id,"",curPage+""), new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 handler.obtainMessage(MSG_FACTORY_LIST_SUCCESS,result).sendToTarget();
@@ -114,7 +120,9 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
 
 
     @Override
-    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {//下拉刷新
+        curPage = 1;
+        arrayList.clear();
         factoryList();
     }
 

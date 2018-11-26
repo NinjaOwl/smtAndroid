@@ -113,7 +113,7 @@ public class DownDialog {
     public void show(String desc) {
         view_progress.setVisibility(View.INVISIBLE);
         tv_desc_update.setVisibility(View.VISIBLE);
-        if (desc != null && desc.length() > 4) {
+        if (desc != null /*&& desc.length() > 4*/) {
             tv_desc_update.setText(desc);
         }
         tv_speed.setText("0kb/s");

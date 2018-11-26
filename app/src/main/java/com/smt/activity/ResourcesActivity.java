@@ -2,7 +2,12 @@ package com.smt.activity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +17,10 @@ import com.smt.R;
 import com.smt.config.SMTApplication;
 import com.smt.domain.Resources;
 import com.smt.inter.DownManager;
+import com.smt.utils.LogUtils;
 import com.smt.utils.OpenFiles;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +45,7 @@ public class ResourcesActivity extends BaseActivity {
     String videoUrl = "http://gslb.miaopai.com/stream/ed5HCfnhovu3tyIQAiv60Q__.mp4";
     String thumbImageUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png";
     String attachmentTitle = "附件标题";
+    String attachmentSuffix = "png";
     String attachmentUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png";
     String note = "此视频拍摄于2018年12月12日，这块需要着重关注，一定要注意生产安全。";
 
@@ -50,41 +59,36 @@ public class ResourcesActivity extends BaseActivity {
         showTop("资源详情",true);
 
         resources = (Resources)getIntent().getParcelableExtra("resources");
+        LogUtils.println("resources",resources.toString());
 
-        resources = new Resources(id,title,createTime,videoUrl,thumbImageUrl,
-                attachmentTitle,attachmentUrl,note);
+//        resources = new Resources(id,title,createTime,videoUrl,thumbImageUrl,
+//                attachmentTitle,attachmentSuffix,attachmentUrl,note);
 
         jzVideo.setUp(resources.videoUrl,resources.title, JzvdStd.SCREEN_WINDOW_NORMAL);
         Glide.with(this).load(resources.thumbImageUrl).into(jzVideo.thumbImageView);
 
-
-        noteTV.setText(resources.note);
-        attachmentTitleTV.setText(resources.attachmentTitle);
-
         downloadAttachment.setOnClickListener(this);
+
+        if("".equals(resources.attachmentTitle)){
+            downloadAttachment.setVisibility(View.GONE);
+            attachmentTitleTV.setText("暂无附件");
+        }
+        noteTV.setText(resources.note);
+        if("".equals(resources.attachmentTitle)){
+            noteTV.setText("暂无说明");
+        }
+
+        downloadApk.setVisibility(View.GONE);
         downloadApk.setOnClickListener(this);
     }
 
-    public void openFile(String path){
-        try {
-            System.out.println("文件名---->"+path);
-            Intent intent = OpenFiles.getFileIntent(this,path);
-            startActivity(intent);
-        }catch (ActivityNotFoundException e) {
-            //没有安装第三方的软件会提示
-            System.out.println("---->没有找到打开该文件的应用程序");
-        } catch (Exception e) {
-            //没有安装第三方的软件会提示
-            System.out.println("---->其他问题");
-        }
-    }
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.download_attachment:
                 String downUrl = resources.attachmentUrl;
-                String downPath = SMTApplication.getRootDir() + "/tengxun.png";
-                DownManager downManager = new DownManager(ResourcesActivity.this);
+                String downPath = SMTApplication.getRootDir() +resources.attachmentTitle+"."+resources.attachmentSuffix;
+                DownManager downManager = new DownManager(this);
                 downManager.downSatrt(downUrl, downPath, "是否下载文件");
                 break;
             case R.id.downloadApk:
@@ -92,6 +96,8 @@ public class ResourcesActivity extends BaseActivity {
                 String downPathApk = SMTApplication.getRootDir() + "/tengxun.apk";
                 DownManager downManagerApk = new DownManager(ResourcesActivity.this);
                 downManagerApk.downSatrt(downUrlApk, downPathApk, "是否下载文件");
+
+//                installProcess(new File(downPathApk));
                 break;
         }
     }
@@ -110,4 +116,5 @@ public class ResourcesActivity extends BaseActivity {
         }
         super.onBackPressed();
     }
+
 }

@@ -25,10 +25,12 @@ public class SMTURL {
     /** 资源列表 */
     public static String RESOURCE_LIST = URL+"v1/res/list";
 
-    public static HashMap<String, String> resourceListParams(String factoryId,String resName){
+    public static HashMap<String, String> resourceListParams(String factoryId,String resName,String page){
         HashMap<String, String> params = new HashMap<>();
         params.put("factory_id", factoryId);
         params.put("res_name", resName);
+        params.put("page", page);//页码
+        params.put("max", "1");//每页显示条数
         return params;
     }
 
@@ -40,4 +42,7 @@ public class SMTURL {
         params.put("res_id", resId);
         return params;
     }
+
+    /** 版本更新 */
+    public static String APP_VERSION = URL+"v1/app/get";
 }

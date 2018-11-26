@@ -12,11 +12,15 @@ import com.smt.R;
 import com.smt.config.Preference;
 import com.smt.config.SMTApplication;
 import com.smt.dialog.WaitDialog;
+import com.smt.domain.APPVersion;
 import com.smt.domain.BaseResult;
 import com.smt.domain.UserInfo;
+import com.smt.http.CheckVersion;
 import com.smt.http.NetRequest;
 import com.smt.http.SMTURL;
+import com.smt.inter.DownManager;
 import com.smt.utils.LogUtils;
+import com.smt.utils.MD5Util;
 import com.smt.utils.ParseUtils;
 import com.smt.utils.PermisionUtils;
 
@@ -26,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Request;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseInstallActivity {
     @BindView(R.id.login_btn)
     Button login;
     @BindView(R.id.edit_phone)
@@ -40,9 +44,8 @@ public class LoginActivity extends BaseActivity {
         PermisionUtils.verifyStoragePermissions(this);
         ButterKnife.bind(this);
         login.setOnClickListener(this);
-
-        editPhone.setText("admin");
-        editPwd.setText("123456");
+        CheckVersion.checkVersion(this,this);
+        editPhone.setText(Preference.getString(Preference.USERNAME));
     }
 
 
@@ -63,7 +66,7 @@ public class LoginActivity extends BaseActivity {
     }
     /** 登录操作 */
     public void login() {
-        NetRequest.postFormRequest(SMTURL.LOGIN, SMTURL.loginParams(userName,password), new NetRequest.DataCallBack() {
+        NetRequest.postFormRequest(SMTURL.LOGIN, SMTURL.loginParams(userName,MD5Util.getMD5(password)), new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 waitDialog.dismiss();
@@ -97,4 +100,23 @@ public class LoginActivity extends BaseActivity {
         }
         return false;
     }
+
+
+//    public void checkVersion(){
+//        NetRequest.postFormRequest(SMTURL.APP_VERSION, null, new NetRequest.DataCallBack() {
+//            @Override
+//            public void requestSuccess(String result) throws Exception {
+//                APPVersion appVersion = ParseUtils.getAPPVersion(result);
+//                LogUtils.println("appVersion",appVersion.toString());
+//                LogUtils.println("versionName",SMTApplication.getVersionName());
+//                if(!SMTApplication.getVersionName().equals(appVersion.versionCode)){
+//                    DownManager downManagerApk = new DownManager(LoginActivity.this);
+//                    downManagerApk.downSatrt(appVersion.versionURL, SMTApplication.getRootDir() + "/smt.apk", appVersion.versionContent);
+//                }
+//            }
+//            @Override
+//            public void requestFailure(Request request, IOException e) {
+//            }
+//        });
+//    }
 }

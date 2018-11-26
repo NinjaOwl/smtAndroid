@@ -3,7 +3,7 @@ package com.smt.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Resources implements Parcelable {
+public class Resources extends BaseResult implements Parcelable {
     /** Id(res_id) */
     public String id = "";
     /** 标题(res_name) */
@@ -16,22 +16,40 @@ public class Resources implements Parcelable {
     public String thumbImageUrl = "";
     /** 附件名 */
     public String attachmentTitle = "";
+    /** 附件后缀 */
+    public String attachmentSuffix = "";
     /** 附件地址 */
     public String attachmentUrl = "";
     /** 备注(res_desc) */
     public String note = "";
 
-    public Resources(String id, String title, String createTime,String videoUrl, String thumbImageUrl, String attachmentTitle, String attachmentUrl, String note) {
+    public Resources(String id, String title, String createTime,String videoUrl, String thumbImageUrl, String attachmentTitle, String attachmentSuffix,String attachmentUrl, String note) {
         this.id = id;
         this.title = title;
         this.createTime = createTime;
         this.videoUrl = videoUrl;
         this.thumbImageUrl = thumbImageUrl;
         this.attachmentTitle = attachmentTitle;
+        this.attachmentSuffix = attachmentSuffix;
         this.attachmentUrl = attachmentUrl;
         this.note = note;
     }
-
+    @Override
+    public String toString() {
+        return "Resources{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", thumbImageUrl='" + thumbImageUrl + '\'' +
+                ", attachmentTitle='" + attachmentTitle + '\'' +
+                ", attachmentSuffix='" + attachmentSuffix + '\'' +
+                ", attachmentUrl='" + attachmentUrl + '\'' +
+                ", note='" + note + '\'' +
+                ", code='" + code + '\'' +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
     public Resources() {
     }
 
@@ -42,6 +60,7 @@ public class Resources implements Parcelable {
         videoUrl = in.readString();
         thumbImageUrl = in.readString();
         attachmentTitle = in.readString();
+        attachmentSuffix = in.readString();
         attachmentUrl = in.readString();
         note = in.readString();
     }
@@ -54,6 +73,7 @@ public class Resources implements Parcelable {
         dest.writeString(videoUrl);
         dest.writeString(thumbImageUrl);
         dest.writeString(attachmentTitle);
+        dest.writeString(attachmentSuffix);
         dest.writeString(attachmentUrl);
         dest.writeString(note);
     }

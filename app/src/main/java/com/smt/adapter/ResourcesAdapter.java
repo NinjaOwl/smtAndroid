@@ -61,8 +61,8 @@ public class ResourcesAdapter extends BaseAdapter {
 
         Resources res = resources.get(position);
 
-        holder.title.setText(res.title);
-        holder.createTime.setText(res.createTime);
+        holder.title.setText("资源名称："+res.title);
+        holder.createTime.setText("创建时间："+res.createTime);
 
         return convertView;
     }

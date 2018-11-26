@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="25dp"
-                    android:text="下载提醒"
+                    android:text="有新版本"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>

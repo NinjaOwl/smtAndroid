@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,8 +16,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.smt.R;
 import com.smt.adapter.FactoryAdapter;
 import com.smt.config.Preference;
+import com.smt.config.SMTApplication;
 import com.smt.domain.Factory;
 import com.smt.domain.UserInfo;
+import com.smt.http.CheckVersion;
 import com.smt.http.NetRequest;
 import com.smt.http.SMTURL;
 import com.smt.utils.LogUtils;
@@ -29,12 +32,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Request;
 
-public class FactoryActivity extends BaseActivity implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView> {
+public class FactoryActivity extends BaseInstallActivity implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView> {
 
     @BindView(R.id.name)
     TextView name;
     @BindView(R.id.username)
     TextView username;
+    @BindView(R.id.version)
+    TextView version;
+    @BindView(R.id.logout_btn)
+    Button logoutBtn;
     @BindView(R.id.pull_to_refresh_listview)
     PullToRefreshListView listView;
     private FactoryAdapter factoryAdapter;
@@ -53,9 +60,12 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
         if(fromWelcome)
             LogUtils.println("","fromWelcome");
 
+        logoutBtn.setOnClickListener(this);
         userInfo = Preference.getUser();
         name.setText(userInfo.name);
         username.setText(userInfo.username);
+        version.setText("当前版本："+SMTApplication.getVersionName());
+
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.setOnRefreshListener(this);
@@ -75,7 +85,7 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
                 listView.setRefreshing();
             }
         }, 300);
-
+        CheckVersion.checkVersion(this,this);
     }
 
     @Override
@@ -173,5 +183,19 @@ public class FactoryActivity extends BaseActivity implements AdapterView.OnItemC
 //                listView.onRefreshComplete();
 //            }
 //        }, 2000);
+    }
+
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.logout_btn:
+                Preference.clearUserInfo();
+                Preference.putString(Preference.TOKEN,"");
+                Preference.putString(Preference.PASSWORD,"");
+                showToast("退出成功");
+                startActivity(new Intent(this,LoginActivity.class));
+                this.finish();
+                break;
+        }
     }
 }

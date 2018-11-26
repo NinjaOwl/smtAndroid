@@ -1,5 +1,6 @@
 package com.smt.utils;
 
+import com.smt.domain.APPVersion;
 import com.smt.domain.BaseResult;
 import com.smt.domain.Factory;
 import com.smt.domain.Resources;
@@ -32,6 +33,31 @@ public class ParseUtils implements Serializable {
             e.printStackTrace();
         }
         return baseResult;
+    }
+
+    /** 获取APPVersion */
+    public static APPVersion getAPPVersion(String result) {
+        APPVersion appVersion = null;
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            appVersion = new APPVersion();
+            appVersion.code = jsonObject.optString("code");
+            appVersion.msg = jsonObject.optString("msg");
+            if (jsonObject.has("data")) {
+                JSONObject jsonObject1 = jsonObject.getJSONObject("data").getJSONObject("version");
+                appVersion.versionId = jsonObject1.optString("version_id");
+                appVersion.versionCode = jsonObject1.optString("version_code");
+                appVersion.versionContent = jsonObject1.optString("version_content");
+                appVersion.versionURL = jsonObject1.optString("version_url");
+                appVersion.fileSize = jsonObject1.optString("file_size");
+                appVersion.isForce = false;
+                if(jsonObject1.optInt("is_force") == 1)//强制是1
+                    appVersion.isForce = true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return appVersion;
     }
     /** 获取用户 */
     public static UserInfo getUser(String result) {
@@ -129,6 +155,18 @@ public class ParseUtils implements Serializable {
         return resources;
     }
 
+
+    /** 总页数 */
+    public static int getPageCount(String result) {
+        int pageCount = 99;
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            pageCount = jsonObject.getJSONObject("data").getJSONObject("paging").optInt("page_count");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return pageCount;
+    }
 
     /**
      * 解析单个Resources信息

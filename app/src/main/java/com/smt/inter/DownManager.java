@@ -1,6 +1,7 @@
 package com.smt.inter;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 import com.smt.dialog.DownDialog;
@@ -22,9 +24,17 @@ public class DownManager implements DownListener, DownDialog.DownDialogListener 
     Context context;
     DownDialog downDialog;
     DownUtil downUtil;
+    InstallListener installListener;
 
     public DownManager(Context context) {
         this.context = context;
+        downDialog = new DownDialog(context);
+        downDialog.setOnDialogClickListener(this);
+        downUtil = new DownUtil(this);
+    }
+    public DownManager(Context context,InstallListener installListener) {
+        this.context = context;
+        this.installListener = installListener;
         downDialog = new DownDialog(context);
         downDialog.setOnDialogClickListener(this);
         downUtil = new DownUtil(this);
@@ -53,8 +63,11 @@ public class DownManager implements DownListener, DownDialog.DownDialogListener 
                     downDialog.updateView(100, "下载完成", 0);
                     downDialog.dissmiss();
                     Toast.makeText(context, "下载完成,文件路径"+downPath, Toast.LENGTH_SHORT).show();
-
-                    openFile(downPath);
+                    if(installListener == null){
+                        openFile(downPath);
+                    }else{
+                        installListener.downSuccess(downPath);
+                    }
 
                     break;
                 case DOWN_FAILED:
