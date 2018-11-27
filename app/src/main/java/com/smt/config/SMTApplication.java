@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.WindowManager;
 
 
+import com.smt.utils.CrashHandler;
 import com.smt.utils.SMTUtils;
 
 import java.io.File;
@@ -75,6 +76,8 @@ public class SMTApplication extends Application {
         mAppContext = this.getApplicationContext();
         /** ============= 初始化文件路劲 ============== */
         initFilePath();
+        /** =============  初始化全局异常捕捉器 ============== */
+        CrashHandler.getInstance().init(this);
 
         /** ============= 获取设备信息 ============== */
         {

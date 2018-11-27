@@ -53,7 +53,6 @@ public class FactoryActivity extends BaseInstallActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_factory);
         ButterKnife.bind(this);
-
         showTop("工厂列表",false);
         //是否从Welcome界面过来
         boolean fromWelcome = getIntent().getBooleanExtra("fromWelcome",false);
