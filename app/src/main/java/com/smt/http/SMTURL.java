@@ -30,7 +30,7 @@ public class SMTURL {
         params.put("factory_id", factoryId);
         params.put("res_name", resName);
         params.put("page", page);//页码
-        params.put("max", "1");//每页显示条数
+        params.put("max", "10");//每页显示条数
         return params;
     }
 

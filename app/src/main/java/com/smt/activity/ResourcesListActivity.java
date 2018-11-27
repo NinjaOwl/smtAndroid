@@ -12,13 +12,11 @@ import android.widget.ListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.smt.R;
-import com.smt.adapter.FactoryAdapter;
 import com.smt.adapter.ResourcesAdapter;
 import com.smt.domain.Factory;
 import com.smt.domain.Resources;
 import com.smt.http.NetRequest;
 import com.smt.http.SMTURL;
-import com.smt.utils.LogUtils;
 import com.smt.utils.ParseUtils;
 
 import java.io.IOException;
