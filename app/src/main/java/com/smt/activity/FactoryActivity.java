@@ -73,12 +73,6 @@ public class FactoryActivity extends BaseInstallActivity implements AdapterView.
         factoryAdapter = new FactoryAdapter(this);
         listView.setAdapter(factoryAdapter);
 
-//        arrayList.add(new Factory("1","江阴兴澄特钢","江阴"));
-//        arrayList.add(new Factory("2","靖江华菱钢铁","靖江"));
-//        arrayList.add(new Factory("3","苏州钢厂","苏州"));
-//        arrayList.add(new Factory("4","中信泰富江都特钢厂","中信"));
-//        factoryAdapter.setData(arrayList);
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

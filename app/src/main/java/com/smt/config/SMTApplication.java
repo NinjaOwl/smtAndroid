@@ -32,6 +32,10 @@ public class SMTApplication extends Application {
      */
     private static String crashLogDir;
     /**
+     * attachment目录
+     */
+    private static String attachmentDir;
+    /**
      * 版本号 800
      */
     private static int versionCode = 0;
@@ -100,6 +104,7 @@ public class SMTApplication extends Application {
         rootDir = rootDir + "/smt/";
         cachePic = rootDir + "cachePic/";
         crashLogDir = rootDir + "crashLogDir/";
+        attachmentDir = rootDir + "attachmentDir/";
         createFileDir();
     }
 
@@ -107,6 +112,7 @@ public class SMTApplication extends Application {
         SMTUtils.createFileDir(rootDir);
         SMTUtils.createFileDir(cachePic);
         SMTUtils.createFileDir(crashLogDir);
+        SMTUtils.createFileDir(attachmentDir);
     }
 
 
@@ -143,5 +149,8 @@ public class SMTApplication extends Application {
 
     public static String getCrashLogDir() {
         return crashLogDir;
+    }
+    public static String getAttachmentDirDir() {
+        return attachmentDir;
     }
 }

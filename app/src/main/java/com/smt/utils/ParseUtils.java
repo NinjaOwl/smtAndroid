@@ -1,6 +1,7 @@
 package com.smt.utils;
 
 import com.smt.domain.APPVersion;
+import com.smt.domain.Attachment;
 import com.smt.domain.BaseResult;
 import com.smt.domain.Factory;
 import com.smt.domain.Resources;
@@ -138,14 +139,14 @@ public class ParseUtils implements Serializable {
 
 
     /** 资源列表 */
-    public static ArrayList<Resources> getResources(String result) {
+    public static ArrayList<Resources> getResourcesList(String result) {
         ArrayList<Resources> resources = new ArrayList<Resources>();
         try {
             JSONArray circleList = new JSONArray(new JSONObject(result).getJSONObject("data").optString("list"));
             int length = circleList.length();
             for (int i = 0; i < length; i++) {
                 JSONObject jsonObject = circleList.optJSONObject(i);
-                Resources resource = getResources(jsonObject);
+                Resources resource = getResourcesFromList(jsonObject);
                 if (resource != null)
                     resources.add(resource);
             }
@@ -155,6 +156,73 @@ public class ParseUtils implements Serializable {
         return resources;
     }
 
+
+    /**
+     * 解析单个Resources信息
+     * @param jsonObject
+     * @return
+     */
+    public static Resources getResourcesFromList(JSONObject jsonObject) {
+        if (jsonObject == null)
+            return null;
+        try {
+            Resources resources = new Resources();
+            resources.id = jsonObject.optString("res_id");
+            resources.title = jsonObject.optString("res_name");
+            resources.note = jsonObject.optString("res_desc");
+            resources.thumbImageUrl = jsonObject.optString("res_thumb");
+            resources.videoUrl = jsonObject.optString("res_url");
+            resources.createTime = jsonObject.optString("res_date");
+            return resources;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+    /**
+     * 解析ResourcesAttachment信息
+     * @return
+     */
+    public static Resources getResourcesAttachment(String result) {
+        Resources resources = null;
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            resources = new Resources();
+            resources.code = jsonObject.optString("code");
+            resources.msg = jsonObject.optString("msg");
+
+            JSONObject jsonRes = jsonObject.getJSONObject("data").getJSONObject("res");
+            resources.id = jsonRes.optString("res_id");
+            resources.title = jsonRes.optString("res_name");
+            resources.note = jsonRes.optString("res_desc");
+            resources.thumbImageUrl = jsonRes.optString("res_thumb");
+            resources.videoUrl = jsonRes.optString("res_url");
+            resources.createTime = jsonObject.optString("res_date");
+
+
+            ArrayList<Attachment> attachments = new ArrayList<Attachment>();
+            JSONArray attachmentsJSONArray = new JSONArray(new JSONObject(result).getJSONObject("data").optString("attachments"));
+            int length = attachmentsJSONArray.length();
+            for (int i = 0; i < length; i++) {
+                JSONObject jsonAttachment = attachmentsJSONArray.optJSONObject(i);
+                Attachment attachment = new Attachment();
+                attachment.id = jsonAttachment.optString("attach_id");
+                attachment.name = jsonAttachment.optString("attach_name");
+                attachment.desc = jsonAttachment.optString("attach_desc");
+                attachment.suffix = jsonAttachment.optString("attach_suffix");
+                attachment.url = jsonAttachment.optString("attach_url");
+                attachments.add(attachment);
+            }
+            resources.attachments = attachments;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return resources;
+    }
 
     /** 总页数 */
     public static int getPageCount(String result) {
@@ -166,27 +234,5 @@ public class ParseUtils implements Serializable {
             e.printStackTrace();
         }
         return pageCount;
-    }
-
-    /**
-     * 解析单个Resources信息
-     * @param jsonObject
-     * @return
-     */
-    public static Resources getResources(JSONObject jsonObject) {
-        if (jsonObject == null)
-            return null;
-        try {
-            Resources resources = new Resources();
-            resources.id = jsonObject.optString("res_id");
-            resources.title = jsonObject.optString("res_name");
-            resources.note = jsonObject.optString("res_desc");
-            resources.thumbImageUrl = jsonObject.optString("res_thumb");
-            resources.videoUrl = jsonObject.optString("res_url");
-            return resources;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

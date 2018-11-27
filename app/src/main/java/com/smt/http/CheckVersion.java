@@ -24,9 +24,9 @@ public class CheckVersion {
                 LogUtils.println("versionName",SMTApplication.getVersionName());
                 if(!SMTApplication.getVersionName().equals(appVersion.versionCode)){
                     DownManager downManagerApk = new DownManager(context,installListener);
-                    String downUrlApk = "http://58.63.233.48/app.znds.com/down/20170712/ystjg_2.6.0.1059_dangbei.apk";
-                    downManagerApk.downSatrt(downUrlApk, SMTApplication.getRootDir() + "/smt.apk", appVersion.versionContent);
-//                    downManagerApk.downSatrt(appVersion.versionURL, SMTApplication.getRootDir() + "/smt.apk", appVersion.versionContent);
+//                    String downUrlApk = "http://58.63.233.48/app.znds.com/down/20170712/ystjg_2.6.0.1059_dangbei.apk";
+//                    downManagerApk.downSatrt(downUrlApk, SMTApplication.getRootDir() + "/smt.apk", appVersion.versionContent);
+                    downManagerApk.downSatrt(appVersion.versionURL, SMTApplication.getRootDir() + "/smt.apk", appVersion.versionContent);
                 }
             }
             @Override

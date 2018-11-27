@@ -55,8 +55,6 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
         resourcesAdapter = new ResourcesAdapter(this);
         listView.setAdapter(resourcesAdapter);
 
-        showToast("正在获取工厂列表");
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -80,18 +78,18 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_FACTORY_LIST_SUCCESS:
-                    arrayList.addAll(ParseUtils.getResources(msg.obj+""));
+                    arrayList.addAll(ParseUtils.getResourcesList(msg.obj+""));
                     resourcesAdapter.setData(arrayList);
                     curPage++;
                     if(curPage>ParseUtils.getPageCount(msg.obj+"")){
-                        showToast("获取成功，已无数据");
+                        showToast("获取工厂列表成功，已无数据");
                     }else{
-                        showToast("获取成功");
+                        showToast("获取工厂列表成功");
                     }
                     listView.onRefreshComplete();
                     break;
                 case MSG_FACTORY_LIST_FAIL:
-                    showToast("获取失败："+msg.obj);
+                    showToast("获取工厂列表失败："+msg.obj);
                     listView.onRefreshComplete();
                     break;
             }
@@ -104,7 +102,7 @@ public class ResourcesListActivity extends BaseActivity implements AdapterView.O
             @Override
             public void requestSuccess(String result) throws Exception {
                 handler.obtainMessage(MSG_FACTORY_LIST_SUCCESS,result).sendToTarget();
-                ArrayList<Resources> resources = ParseUtils.getResources(result);
+                ArrayList<Resources> resources = ParseUtils.getResourcesList(result);
                 for (int i=0;i<resources.size();i++){
                     System.out.println("---->"+resources.get(i).toString());
                 }
