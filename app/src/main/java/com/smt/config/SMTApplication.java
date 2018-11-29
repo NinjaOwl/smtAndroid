@@ -21,7 +21,7 @@ public class SMTApplication extends Application {
      */
     private static String rootDir;
     /**
-     * 缓存目录(下次登录要删除)
+     * 缓存目录
      */
     private static String cachePic;
     /**
@@ -111,7 +111,7 @@ public class SMTApplication extends Application {
         createFileDir();
     }
 
-    public static void createFileDir(){
+    public static void createFileDir() {
         SMTUtils.createFileDir(rootDir);
         SMTUtils.createFileDir(cachePic);
         SMTUtils.createFileDir(crashLogDir);
@@ -153,6 +153,7 @@ public class SMTApplication extends Application {
     public static String getCrashLogDir() {
         return crashLogDir;
     }
+
     public static String getAttachmentDirDir() {
         return attachmentDir;
     }

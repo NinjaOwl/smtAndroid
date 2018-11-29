@@ -31,6 +31,8 @@ import okhttp3.Request;
 public class ResourcesActivity extends BaseActivity {
     @BindView(R.id.jz_video)
     JzvdStd jzVideo;
+    @BindView(R.id.no_video)
+    TextView noVideoTV;
     @BindView(R.id.note)
     TextView noteTV;
     @BindView(R.id.attachment)
@@ -64,6 +66,11 @@ public class ResourcesActivity extends BaseActivity {
         if("".equals(resources.note)){
             noteTV.setText("暂无说明");
         }
+        if("".equals(resources.videoUrl)){
+            jzVideo.setVisibility(View.GONE);
+            noVideoTV.setVisibility(View.VISIBLE);
+        }
+
 
         getResourcesAttachment();
     }

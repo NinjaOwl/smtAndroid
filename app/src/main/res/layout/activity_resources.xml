@@ -13,6 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
+    <TextView
+        android:id="@+id/no_video"
+        android:visibility="gone"
+        style="@style/factory_text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="暂无视频信息" />
+
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
@@ -44,9 +52,9 @@
 
             <TextView
                 android:id="@+id/attachment"
-                android:visibility="gone"
                 style="@style/factory_text"
-                android:text="暂无附件" />
+                android:text="暂无附件"
+                android:visibility="gone" />
 
             <com.smt.view.ListViewForScrollView
                 android:id="@+id/listview"
