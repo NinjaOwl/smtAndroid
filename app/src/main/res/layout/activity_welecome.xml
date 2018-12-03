@@ -23,12 +23,24 @@
         android:textColor="@color/white"
         android:textSize="16sp" />
 
-
-
-    <TextView
-        android:layout_centerInParent="true"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="欢迎使用本软件" />
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:textSize="25sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="欢迎使用本软件" />
+    </LinearLayout>
+
 
 </RelativeLayout>

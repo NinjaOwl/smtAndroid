@@ -123,7 +123,7 @@ public class Preference {
         staticUserInfo = userInfo;
         getEcgEdit()
                 .putString("user_id", userInfo.id)
-                .putString("user_phone", userInfo.username)
+                .putString("user_username", userInfo.username)
                 .putString("user_name", userInfo.name)
                 .putString("user_sex", userInfo.sex)
                 .putString("user_factoryName", userInfo.factoryName)
@@ -135,12 +135,12 @@ public class Preference {
 
         if (staticUserInfo == null) {
             staticUserInfo = new UserInfo();
-            staticUserInfo.id = getString("id", "");
-            staticUserInfo.username = getString("username", "");
-            staticUserInfo.name = getString("name", "");
-            staticUserInfo.sex = getString("sex", "0");
-            staticUserInfo.factoryName = getString("factoryName", "");
-            staticUserInfo.factoryId = getString("factoryId", "");
+            staticUserInfo.id = getString("user_id", "");
+            staticUserInfo.username = getString("user_username", "");
+            staticUserInfo.name = getString("user_name", "");
+            staticUserInfo.sex = getString("user_sex", "0");
+            staticUserInfo.factoryName = getString("user_factoryName", "");
+            staticUserInfo.factoryId = getString("user_factoryId", "");
         }
         return staticUserInfo;
     }
